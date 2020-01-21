@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace JNogueira.Logger.Discord
 {
@@ -16,7 +16,6 @@ namespace JNogueira.Logger.Discord
 
         public DiscordLogger(DiscordLoggerOptions options, IHttpContextAccessor httpContextAcessor)
         {
-            //_name               = name;
             _options            = options;
             _httpContextAcessor = httpContextAcessor;
         }
@@ -43,18 +42,27 @@ namespace JNogueira.Logger.Discord
             {
                 case LogLevel.None:
                 case LogLevel.Trace:
+                    message = new DiscordMessage(logLevel.ToString(), _options.UserName);
+                    embed = new DiscordMessageEmbed(formattedMessage);
+                    break;
                 case LogLevel.Debug:
+                    message = new DiscordMessage($"{DiscordEmoji.SpiderWeb} {logLevel.ToString()}", _options.UserName);
+                    embed = new DiscordMessageEmbed(formattedMessage);
+                    break;
                 case LogLevel.Information:
-                    message = new DiscordMessage($"{DiscordEmoji.InformationSource} Info", _options.UserName);
+                    message = new DiscordMessage($"{DiscordEmoji.InformationSource} {logLevel.ToString()}", _options.UserName);
                     embed = new DiscordMessageEmbed(formattedMessage, 31743);
                     break;
                 case LogLevel.Warning:
-                    message = new DiscordMessage($"{DiscordEmoji.Warning} Warning", _options.UserName);
+                    message = new DiscordMessage($"{DiscordEmoji.Warning} {logLevel.ToString()}", _options.UserName);
                     embed = new DiscordMessageEmbed(formattedMessage, 16761095);
                     break;
                 case LogLevel.Critical:
+                    message = new DiscordMessage($"{DiscordEmoji.Radioactive} {logLevel.ToString()}", _options.UserName);
+                    embed = new DiscordMessageEmbed(formattedMessage, 16711680);
+                    break;
                 case LogLevel.Error:
-                    message = new DiscordMessage($"{DiscordEmoji.Bomb} Error", _options.UserName);
+                    message = new DiscordMessage($"{DiscordEmoji.Skull} {logLevel.ToString()}", _options.UserName);
                     embed = new DiscordMessageEmbed(formattedMessage, 14431557);
                     break;
             }
@@ -69,6 +77,10 @@ namespace JNogueira.Logger.Discord
 
             if (exception != null)
             {
+                embed.Title = exception.Message;
+                
+                embed.Description = formattedMessage;
+                
                 if (!string.IsNullOrEmpty(exception.StackTrace))
                     fields.Add(new DiscordMessageEmbedField("Stack trace", $"`{exception.StackTrace}`"));
 
@@ -78,8 +90,8 @@ namespace JNogueira.Logger.Discord
                 if (exception.GetBaseException()?.Message != exception.Message)
                     fields.Add(new DiscordMessageEmbedField("Base exception", exception.GetBaseException()?.Message));
 
-                foreach (KeyValuePair<string, string> data in exception.Data)
-                    fields.Add(new DiscordMessageEmbedField(data.Key, data.Value));
+                foreach (DictionaryEntry data in exception.Data)
+                    fields.Add(new DiscordMessageEmbedField(data.Key.ToString(), data.Value.ToString()));
 
                 if (_httpContextAcessor != null)
                 {
@@ -112,7 +124,7 @@ namespace JNogueira.Logger.Discord
 
             var client = new DiscordWebhookClient(_options.WebhookUrl);
 
-            client.SendToDiscord(message);
+            client.SendToDiscord(message).Wait();
         }
     }
 }

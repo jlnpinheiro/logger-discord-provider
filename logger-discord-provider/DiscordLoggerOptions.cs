@@ -6,31 +6,24 @@ namespace JNogueira.Logger.Discord
     {
         public string WebhookUrl { get; private set; }
 
-        public string ChannelName { get; private set; }
-
         public string ApplicationName { get; set; }
 
         public string UserName { get; set; }
 
         public string EnvironmentName { get; set; }
 
-        public DiscordLoggerOptions(string webhookUrl, string channelName)
+        public DiscordLoggerOptions(string webhookUrl)
         {
             if (string.IsNullOrEmpty(webhookUrl))
-                throw new ArgumentNullException(nameof(webhookUrl));
+                throw new ArgumentNullException(nameof(webhookUrl), "The Discord webhook URL cannot be null or empty.");
 
-            Uri uriResult;
-            if (!(Uri.TryCreate(webhookUrl, UriKind.Absolute, out uriResult)
+            if (!(Uri.TryCreate(webhookUrl, UriKind.Absolute, out Uri uriResult)
                 && (uriResult.Scheme == "http" || uriResult.Scheme == "https")))
             {
-                throw new ArgumentException($"Invalid webhook URL: {webhookUrl}");
+                throw new ArgumentException($"Invalid Discord webhook URL: {webhookUrl}");
             }
 
-            if (string.IsNullOrEmpty(channelName))
-                throw new ArgumentNullException(nameof(channelName));
-
             this.WebhookUrl  = webhookUrl;
-            this.ChannelName = channelName;
         }
     }
 }

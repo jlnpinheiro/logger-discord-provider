@@ -6,14 +6,14 @@
     <Authors>JNogueira</Authors>
     <Company></Company>
     <Product>Logger Discord Provider</Product>
-    <Description>A .NET Core Logger provider to send log messages to Discord</Description>
+    <Description>A .NET Core Logger provider to send log messages to Discord.</Description>
     <PackageProjectUrl>https://github.com/jlnpinheiro/logger-discord-provider</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jlnpinheiro/logger-discord-provider</RepositoryUrl>
     <PackageTags>ILogger Logging .NET Core log Discord</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="discord-webhook-client" Version="1.0.4" />
+    <PackageReference Include="discord-webhook-client" Version="1.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.1" />
   </ItemGroup>

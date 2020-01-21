@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JNogueira.Logger.Discord
 {
@@ -12,7 +8,9 @@ namespace JNogueira.Logger.Discord
         private readonly IHttpContextAccessor _httpContextAcessor;
         private readonly DiscordLoggerOptions _options;
 
-        public DiscordLoggerProvider(DiscordLoggerOptions options, IHttpContextAccessor httpContextAcessor)
+        private DiscordLogger _logger;
+
+        public DiscordLoggerProvider(DiscordLoggerOptions options, IHttpContextAccessor httpContextAcessor = null)
         {
             _options            = options;
             _httpContextAcessor = httpContextAcessor;
@@ -20,12 +18,24 @@ namespace JNogueira.Logger.Discord
 
         public ILogger CreateLogger(string name)
         {
-            return new DiscordLogger()
+            _logger = new DiscordLogger(_options, _httpContextAcessor);
+
+            return _logger;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _logger = null;
+        }
+    }
+
+    public static class DiscordLoggerProviderExtensions
+    {
+        public static ILoggerFactory AddDiscord(this ILoggerFactory loggerFactory, DiscordLoggerOptions options, IHttpContextAccessor httpContextAccessor = null)
+        {
+            loggerFactory.AddProvider(new DiscordLoggerProvider(options, httpContextAccessor));
+
+            return loggerFactory;
         }
     }
 }
