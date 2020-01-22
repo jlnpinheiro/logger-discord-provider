@@ -120,3 +120,21 @@ _logger.LogWarning("OK! It's a warning message.");
  _logger.LogCritical("OK! It's a error message.");
 ```
 ![Error message](../assets/critical.png?raw=true)
+
+**Handle an exception!**
+```csharp
+ try
+{
+    var i = 0;
+
+    var x = 5 / i;
+}
+catch (Exception ex)
+{
+    ex.Data["Extra info 1"] = "Extra info 1 value";
+    ex.Data["Extra info 2"] = "Extra info 2 value";
+
+    _logger.LogError(ex, "A exception is handled!");
+}
+```
+![Error message](../assets/exception.png?raw=true)
