@@ -39,8 +39,8 @@ namespace My.Sample.Code
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor)
         {
             loggerFactory
-                // Add "AddDiscord" method.
-                .AddDiscord(new DiscordLoggerOptions(urlWebhook)
+                // Add "AddDiscord" method with desired options.
+                .AddDiscord(new DiscordLoggerOptions(Configuration["WebhookUrl"])
                 {
                     ApplicationName = "Application Name Test",
                     EnvironmentName = "Name of environment",
@@ -75,10 +75,14 @@ namespace My.Sample.Code
             ...
             
             // Call "LogInformation" to sendo log messages to Discord channel
-            _logger.LogInformation("This is a sample Discord message sent by ASP.NET Core application!");
+            _logger.LogInformation("Hello! This is a sample Discord message sent by ASP.NET Core application!");
             
             ...
         }
     }
 }
 ```
+
+## Message types
+
+**Information**
