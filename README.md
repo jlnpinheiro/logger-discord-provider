@@ -89,6 +89,7 @@ namespace My.Sample.Code
 ```csharp
 _logger.LogTrace("OK! It's a trace message.");
 ```
+![Trace message](../assets/trace.png?raw=true)
 
 **Debug**
 ```csharp
@@ -112,5 +113,5 @@ _logger.LogWarning("OK! It's a warning message.");
 
 **Critical**
 ```csharp
- _logger.LogError("OK! It's a error message.");
+ _logger.LogCritical("OK! It's a error message.");
 ```
