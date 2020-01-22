@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>JNogueira.Logger.Discord</RootNamespace>
-    <Authors>JNogueira</Authors>
+    <Authors>Jorge Nogueira</Authors>
     <Company></Company>
     <Product>Logger Discord Provider</Product>
     <Description>A .NET Core Logger provider to send log messages to Discord.</Description>
