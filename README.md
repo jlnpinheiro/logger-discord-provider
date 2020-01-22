@@ -117,13 +117,13 @@ _logger.LogWarning("OK! It's a warning message.");
 
 **Critical**
 ```csharp
- _logger.LogCritical("OK! It's a error message.");
+ _logger.LogCritical("OK! It's a critical message.");
 ```
 ![Error message](../assets/critical.png?raw=true)
 
 **Handle an exception!**
 ```csharp
- try
+try
 {
     var i = 0;
 
