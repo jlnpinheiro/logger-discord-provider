@@ -85,4 +85,32 @@ namespace My.Sample.Code
 
 ## Message types
 
+**Trace**
+```csharp
+_logger.LogTrace("OK! It's a trace message.");
+```
+
+**Debug**
+```csharp
+_logger.LogDebug("OK! It's a debug message.");
+```
+
 **Information**
+```csharp
+_logger.LogInformation("OK! It's a info message.");
+```
+
+**Warning**
+```csharp
+_logger.LogWarning("OK! It's a warning message.");
+```
+
+**Error**
+```csharp
+ _logger.LogError("OK! It's a error message.");
+```
+
+**Critical**
+```csharp
+ _logger.LogError("OK! It's a error message.");
+```
