@@ -43,6 +43,8 @@ namespace logger_discord_provider_tests
         {
             _logger.LogTrace("OK! It's a trace message.");
 
+            System.Threading.Thread.Sleep(1000);
+
             Assert.IsTrue(true);
         }
 
@@ -50,6 +52,8 @@ namespace logger_discord_provider_tests
         public void Should_Send_A_Discord_Debug_Message()
         {
             _logger.LogDebug("OK! It's a debug message.");
+
+            System.Threading.Thread.Sleep(1000);
 
             Assert.IsTrue(true);
         }
@@ -59,6 +63,8 @@ namespace logger_discord_provider_tests
         {
             _logger.LogInformation("OK! It's a info message.");
 
+            System.Threading.Thread.Sleep(1000);
+
             Assert.IsTrue(true);
         }
 
@@ -66,6 +72,8 @@ namespace logger_discord_provider_tests
         public void Should_Send_A_Discord_Warning_Message()
         {
             _logger.LogWarning("OK! It's a warning message.");
+
+            System.Threading.Thread.Sleep(1000);
 
             Assert.IsTrue(true);
         }
@@ -75,6 +83,8 @@ namespace logger_discord_provider_tests
         {
             _logger.LogError("OK! It's a error message.");
 
+            System.Threading.Thread.Sleep(1000);
+
             Assert.IsTrue(true);
         }
 
@@ -82,6 +92,8 @@ namespace logger_discord_provider_tests
         public void Should_Send_A_Discord_Critical_Message()
         {
             _logger.LogCritical("OK! It's a critical message.");
+
+            System.Threading.Thread.Sleep(1000);
 
             Assert.IsTrue(true);
         }
@@ -101,6 +113,8 @@ namespace logger_discord_provider_tests
                 ex.Data["Extra info 2"] = "Extra info 2 value";
 
                 _logger.LogError(ex, "A exception is handled!");
+
+                System.Threading.Thread.Sleep(1000);
 
                 Assert.IsTrue(true);
             }
