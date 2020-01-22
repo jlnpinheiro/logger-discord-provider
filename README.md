@@ -6,7 +6,7 @@ A .NET logger provider to send log entries to **Discord** (https://discordapp.co
 For more information about .NET Core logging API visit [Logging in .NET Core and ASP.NET Core](https://docs.microsoft.com/en-Us/aspnet/core/fundamentals/logging/?view=aspnetcore-3.1) and [Fundamentals of Logging in .NET Core](https://www.tutorialsteacher.com/core/fundamentals-of-logging-in-dotnet-core)
 
 ## Target
-[Discord Webhook Client](https://github.com/jlnpinheiro/discord-webhook-client)
+[Discord Webhook Client](https://github.com/jlnpinheiro/discord-webhook-client)<br>
 .NET Standard 2.0+
 
 For more information about suported versions visit https://docs.microsoft.com/pt-br/dotnet/standard/net-standard
