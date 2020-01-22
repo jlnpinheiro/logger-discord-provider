@@ -95,23 +95,28 @@ _logger.LogTrace("OK! It's a trace message.");
 ```csharp
 _logger.LogDebug("OK! It's a debug message.");
 ```
+![Debug message](../assets/debug.png?raw=true)
 
 **Information**
 ```csharp
 _logger.LogInformation("OK! It's a info message.");
 ```
+![Debug message](../assets/information.png?raw=true)
 
 **Warning**
 ```csharp
 _logger.LogWarning("OK! It's a warning message.");
 ```
+![Warning message](../assets/warning.png?raw=true)
 
 **Error**
 ```csharp
  _logger.LogError("OK! It's a error message.");
 ```
+![Error message](../assets/error.png?raw=true)
 
 **Critical**
 ```csharp
  _logger.LogCritical("OK! It's a error message.");
 ```
+![Error message](../assets/critical.png?raw=true)
