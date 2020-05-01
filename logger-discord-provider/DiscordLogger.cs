@@ -76,7 +76,7 @@ namespace JNogueira.Logger.Discord
             if (!string.IsNullOrEmpty(_options.EnvironmentName))
                 fields.Add(new DiscordMessageEmbedField("Environment name", _options.EnvironmentName));
 
-            DiscordFile stackTraceFile = null;
+            var files = new List<DiscordFile>();
 
             if (exception != null)
             {
@@ -116,10 +116,10 @@ namespace JNogueira.Logger.Discord
                         requestHeaders.Add(item.Key, string.Join(",", item.Value.ToArray()));
 
                     if (requestHeaders.Count > 0)
-                        fields.Add(new DiscordMessageEmbedField("Request header", JsonConvert.SerializeObject(requestHeaders, Formatting.Indented)));
+                        files.Add(new DiscordFile("request-header.txt", Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(requestHeaders, Formatting.Indented))));
                 }
 
-                stackTraceFile = new DiscordFile("stack-trace.txt", Encoding.UTF8.GetBytes(exception.StackTrace));
+                files.Add(new DiscordFile("stack-trace.txt", Encoding.UTF8.GetBytes(exception.StackTrace)));
             }
 
             embed.Fields = fields.ToArray();
@@ -128,9 +128,9 @@ namespace JNogueira.Logger.Discord
 
             var client = new DiscordWebhookClient(_options.WebhookUrl);
 
-            if (stackTraceFile != null)
+            if (files.Count > 0)
             {
-                client.SendToDiscord(message, new[] { stackTraceFile }).Wait();
+                client.SendToDiscord(message, files.ToArray()).Wait();
             }
             else
             {
