@@ -10,7 +10,8 @@
     <PackageProjectUrl>https://github.com/jlnpinheiro/logger-discord-provider</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jlnpinheiro/logger-discord-provider</RepositoryUrl>
     <PackageTags>ILogger Logging .NET Core log Discord</PackageTags>
-    <Version>1.2.1</Version>
+    <Version>1.2.2</Version>
+    <AssemblyVersion>1.2.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
