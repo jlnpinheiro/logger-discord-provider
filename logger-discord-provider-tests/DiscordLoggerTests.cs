@@ -112,7 +112,7 @@ namespace logger_discord_provider_tests
                 ex.Data["Extra info 1"] = "Extra info 1 value";
                 ex.Data["Extra info 2"] = "Extra info 2 value";
 
-                _logger.LogError(ex, new string('a', 7000));
+                _logger.LogError(ex, "A exception is handled!");
 
                 System.Threading.Thread.Sleep(1000);
 
