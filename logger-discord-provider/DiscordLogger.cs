@@ -39,36 +39,33 @@ namespace JNogueira.Logger.Discord
                 if (string.IsNullOrEmpty(formattedMessage))
                     return;
 
-                DiscordMessage message = null;
-
-                DiscordMessageEmbed embed = null;
-
+                var messageContent = string.Empty;
+                int? messageEmbedColor = null;
+                
                 switch (logLevel)
                 {
                     case LogLevel.None:
                     case LogLevel.Trace:
-                        message = new DiscordMessage(logLevel.ToString(), _options.UserName);
-                        embed = new DiscordMessageEmbed(formattedMessage);
+                        messageContent = logLevel.ToString();
                         break;
                     case LogLevel.Debug:
-                        message = new DiscordMessage($"{DiscordEmoji.SpiderWeb} {logLevel.ToString()}", _options.UserName);
-                        embed = new DiscordMessageEmbed(formattedMessage);
+                        messageContent = $"{DiscordEmoji.SpiderWeb} **{logLevel.ToString()}**: {formattedMessage}";
                         break;
                     case LogLevel.Information:
-                        message = new DiscordMessage($"{DiscordEmoji.InformationSource} {logLevel.ToString()}", _options.UserName);
-                        embed = new DiscordMessageEmbed(formattedMessage, 31743);
+                        messageContent = $"{DiscordEmoji.InformationSource} **{logLevel.ToString()}**: {formattedMessage}";
+                        messageEmbedColor = 31743;
                         break;
                     case LogLevel.Warning:
-                        message = new DiscordMessage($"{DiscordEmoji.Warning} {logLevel.ToString()}", _options.UserName);
-                        embed = new DiscordMessageEmbed(formattedMessage, 16761095);
+                        messageContent = $"{DiscordEmoji.Warning} **{logLevel.ToString()}**: {formattedMessage}";
+                        messageEmbedColor = 16761095;
                         break;
                     case LogLevel.Critical:
-                        message = new DiscordMessage($"{DiscordEmoji.Radioactive} {logLevel.ToString()}", _options.UserName);
-                        embed = new DiscordMessageEmbed(formattedMessage, 16711680);
+                        messageContent = $"{DiscordEmoji.Radioactive} **{logLevel.ToString()}**: {formattedMessage}";
+                        messageEmbedColor = 16711680;
                         break;
                     case LogLevel.Error:
-                        message = new DiscordMessage($"{DiscordEmoji.Skull} {logLevel.ToString()}", _options.UserName);
-                        embed = new DiscordMessageEmbed(formattedMessage, 14431557);
+                        messageContent = $"{DiscordEmoji.Skull} **{logLevel.ToString()}**: {formattedMessage}";
+                        messageEmbedColor = 14431557;
                         break;
                 }
 
@@ -82,11 +79,12 @@ namespace JNogueira.Logger.Discord
 
                 var files = new List<DiscordFile>();
 
+                DiscordMessageEmbed embed = null;
+
                 if (exception != null)
                 {
-                    embed.Title = exception.Message;
-
-                    embed.Description = formattedMessage;
+                    fields.Add(new DiscordMessageEmbedField("Exception type", exception.GetType().ToString()));
+                    fields.Add(new DiscordMessageEmbedField("Source", exception.Source));
 
                     var exceptionInfoText = new StringBuilder();
 
@@ -127,12 +125,16 @@ namespace JNogueira.Logger.Discord
                             exceptionInfoText.AppendFormat("Request headers: {0}\r\n", Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(requestHeaders, Formatting.Indented)));
                     }
 
-                    files.Add(new DiscordFile("exception-info.txt", Encoding.UTF8.GetBytes(exceptionInfoText.ToString())));
+                    files.Add(new DiscordFile("exception-details.txt", Encoding.UTF8.GetBytes(exceptionInfoText.ToString())));
+
+                    embed = new DiscordMessageEmbed(color: messageEmbedColor, description: $"**{exception.Message}**", fields: fields.ToArray());
+                }
+                else
+                {
+                    embed = new DiscordMessageEmbed(color: messageEmbedColor, fields: fields.ToArray());
                 }
 
-                embed.Fields = fields.ToArray();
-
-                message.Embeds = new[] { embed };
+                var message = new DiscordMessage(messageContent, _options.UserName, embeds: new[] { embed });
 
                 if (files.Count > 0)
                 {
@@ -145,9 +147,7 @@ namespace JNogueira.Logger.Discord
             }
             catch (Exception ex)
             {
-                var message = new DiscordMessage($"{DiscordEmoji.Skull} {logLevel.ToString()}", _options.UserName);
-
-                message.Embeds = new[] { new DiscordMessageEmbed(ex.Message, 14431557, description: "Error logging message to Discord") };
+                var message = new DiscordMessage($"{DiscordEmoji.Skull} **{logLevel.ToString()}**: {ex.GetBaseException().Message}", _options.UserName);
 
                 client.SendToDiscord(message).Wait();
             }

@@ -41,9 +41,7 @@ namespace logger_discord_provider_tests
         [TestMethod]
         public void Should_Send_A_Discord_Trace_Message()
         {
-            _logger.LogTrace("OK! It's a trace message.");
-
-            System.Threading.Thread.Sleep(1000);
+            _logger.LogTrace("My trace message is here!");
 
             Assert.IsTrue(true);
         }
@@ -51,9 +49,7 @@ namespace logger_discord_provider_tests
         [TestMethod]
         public void Should_Send_A_Discord_Debug_Message()
         {
-            _logger.LogDebug("OK! It's a debug message.");
-
-            System.Threading.Thread.Sleep(1000);
+            _logger.LogDebug("My debug message is here!");
 
             Assert.IsTrue(true);
         }
@@ -61,9 +57,7 @@ namespace logger_discord_provider_tests
         [TestMethod]
         public void Should_Send_A_Discord_Information_Message()
         {
-            _logger.LogInformation("OK! It's a info message.");
-
-            System.Threading.Thread.Sleep(1000);
+            _logger.LogInformation("My info message is here!");
 
             Assert.IsTrue(true);
         }
@@ -71,9 +65,7 @@ namespace logger_discord_provider_tests
         [TestMethod]
         public void Should_Send_A_Discord_Warning_Message()
         {
-            _logger.LogWarning("OK! It's a warning message.");
-
-            System.Threading.Thread.Sleep(1000);
+            _logger.LogWarning("My warning message is here!");
 
             Assert.IsTrue(true);
         }
@@ -81,9 +73,7 @@ namespace logger_discord_provider_tests
         [TestMethod]
         public void Should_Send_A_Discord_Error_Message()
         {
-            _logger.LogError("OK! It's a error message.");
-
-            System.Threading.Thread.Sleep(1000);
+            _logger.LogError("My error message is here!");
 
             Assert.IsTrue(true);
         }
@@ -91,9 +81,7 @@ namespace logger_discord_provider_tests
         [TestMethod]
         public void Should_Send_A_Discord_Critical_Message()
         {
-            _logger.LogCritical("OK! It's a critical message.");
-
-            System.Threading.Thread.Sleep(1000);
+            _logger.LogCritical("My critical message is here!");
 
             Assert.IsTrue(true);
         }
