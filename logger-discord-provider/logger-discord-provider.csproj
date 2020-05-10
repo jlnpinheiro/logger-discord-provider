@@ -10,9 +10,9 @@
     <PackageProjectUrl>https://github.com/jlnpinheiro/logger-discord-provider</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jlnpinheiro/logger-discord-provider</RepositoryUrl>
     <PackageTags>ILogger Logging .NET Core log Discord</PackageTags>
-    <Version>2.0.0</Version>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <PackageReleaseNotes>discord-webhook-client version updated and bug fix.</PackageReleaseNotes>
+    <Version>2.0.1</Version>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <PackageReleaseNotes>Bug fix.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

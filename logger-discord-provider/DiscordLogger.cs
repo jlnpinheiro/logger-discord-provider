@@ -122,7 +122,7 @@ namespace JNogueira.Logger.Discord
                             requestHeaders.Add(item.Key, string.Join(",", item.Value.ToArray()));
 
                         if (requestHeaders.Count > 0)
-                            exceptionInfoText.AppendFormat("Request headers: {0}\r\n", Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(requestHeaders, Formatting.Indented)));
+                            exceptionInfoText.AppendFormat("Request headers:\r\n{0}", JsonConvert.SerializeObject(requestHeaders, Formatting.Indented));
                     }
 
                     files.Add(new DiscordFile("exception-details.txt", Encoding.UTF8.GetBytes(exceptionInfoText.ToString())));
