@@ -87,37 +87,37 @@ namespace My.Sample.Code
 
 **Trace**
 ```csharp
-_logger.LogTrace("OK! It's a trace message.");
+_logger.LogTrace("My trace message is here!");
 ```
 ![Trace message](../assets/trace.png?raw=true)
 
 **Debug**
 ```csharp
-_logger.LogDebug("OK! It's a debug message.");
+_logger.LogDebug("My debug message is here!");
 ```
 ![Debug message](../assets/debug.png?raw=true)
 
 **Information**
 ```csharp
-_logger.LogInformation("OK! It's a info message.");
+_logger.LogInformation("My information message is here!");
 ```
 ![Debug message](../assets/information.png?raw=true)
 
 **Warning**
 ```csharp
-_logger.LogWarning("OK! It's a warning message.");
+_logger.LogWarning("My warning message is here!");
 ```
 ![Warning message](../assets/warning.png?raw=true)
 
 **Error**
 ```csharp
- _logger.LogError("OK! It's a error message.");
+ _logger.LogError("My error message is here!");
 ```
 ![Error message](../assets/error.png?raw=true)
 
 **Critical**
 ```csharp
- _logger.LogCritical("OK! It's a critical message.");
+ _logger.LogCritical("My critical message is here!");
 ```
 ![Error message](../assets/critical.png?raw=true)
 
@@ -137,4 +137,5 @@ catch (Exception ex)
     _logger.LogError(ex, "A exception is handled!");
 }
 ```
+The attachment file *"exception-details.txt"* contains more exception details like base exception, stack trace content, exception type, exception extra data information.
 ![Error message](../assets/exception.png?raw=true)

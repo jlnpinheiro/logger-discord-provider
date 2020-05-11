@@ -29,6 +29,8 @@ namespace JNogueira.Logger.Discord
         {
             var client = new DiscordWebhookClient(_options.WebhookUrl);
 
+            DiscordMessage message = null;
+
             try
             {
                 if (formatter == null)
@@ -46,7 +48,7 @@ namespace JNogueira.Logger.Discord
                 {
                     case LogLevel.None:
                     case LogLevel.Trace:
-                        messageContent = logLevel.ToString();
+                        messageContent = $"**{logLevel.ToString()}**: {formattedMessage}";
                         break;
                     case LogLevel.Debug:
                         messageContent = $"{DiscordEmoji.SpiderWeb} **{logLevel.ToString()}**: {formattedMessage}";
@@ -134,7 +136,7 @@ namespace JNogueira.Logger.Discord
                     embed = new DiscordMessageEmbed(color: messageEmbedColor, fields: fields.ToArray());
                 }
 
-                var message = new DiscordMessage(messageContent, _options.UserName, embeds: new[] { embed });
+                message = new DiscordMessage(messageContent, _options.UserName, embeds: new[] { embed });
 
                 if (files.Count > 0)
                 {
@@ -147,9 +149,9 @@ namespace JNogueira.Logger.Discord
             }
             catch (Exception ex)
             {
-                var message = new DiscordMessage($"{DiscordEmoji.Skull} **{logLevel.ToString()}**: {ex.GetBaseException().Message}", _options.UserName);
+                var exceptionMessage = new DiscordMessage($"{DiscordEmoji.Skull} **{logLevel.ToString()}**: {ex.GetBaseException().Message}", _options.UserName);
 
-                client.SendToDiscord(message).Wait();
+                client.SendToDiscord(exceptionMessage, new[] { new DiscordFile("discord-message.txt", Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message, Formatting.Indented))) }).Wait();
             }
         }
     }
