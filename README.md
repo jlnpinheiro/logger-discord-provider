@@ -122,6 +122,7 @@ _logger.LogWarning("My warning message is here!");
 ![Error message](../assets/critical.png?raw=true)
 
 **Handle an exception!**
+The attachment file *"exception-details.txt"* contains more exception details like base exception, stack trace content, exception type, exception extra data information.
 ```csharp
 try
 {
@@ -137,5 +138,4 @@ catch (Exception ex)
     _logger.LogError(ex, "A exception is handled!");
 }
 ```
-The attachment file *"exception-details.txt"* contains more exception details like base exception, stack trace content, exception type, exception extra data information.
 ![Error message](../assets/exception.png?raw=true)
