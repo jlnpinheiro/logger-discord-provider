@@ -129,14 +129,17 @@ namespace JNogueira.Logger.Discord
 
                     files.Add(new DiscordFile("exception-details.txt", Encoding.UTF8.GetBytes(exceptionInfoText.ToString())));
 
-                    embed = new DiscordMessageEmbed(color: messageEmbedColor, description: $"**{exception.Message}**", fields: fields.ToArray());
+                    embed = new DiscordMessageEmbed(color: messageEmbedColor, description: $"**{exception.Message}**", fields: fields.Count > 0 ? fields.ToArray() : null);
                 }
                 else
                 {
-                    embed = new DiscordMessageEmbed(color: messageEmbedColor, fields: fields.ToArray());
+                    if (fields.Count > 0)
+                    {
+                        embed = new DiscordMessageEmbed(color: messageEmbedColor, fields: fields.ToArray());
+                    }
                 }
 
-                message = new DiscordMessage(messageContent, _options.UserName, embeds: new[] { embed });
+                message = new DiscordMessage(messageContent, _options.UserName, embeds: embed != null ? new[] { embed } : null);
 
                 if (files.Count > 0)
                 {
