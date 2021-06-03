@@ -38,7 +38,7 @@ deploy:
   # NuGet
   - provider: NuGet
     api_key:
-      secure: elSIIfUoE/kibjNJQU93PGHqgFrbPO3ngSC3MoUEUVWCtjLPDHrPucwy4Wmxluf7 # Encriptada em https://ci.appveyor.com/tools/encrypt
+      secure: a4SVkFwIJ1khWZoaTG2f+dThjwSPSW+GU+LLaBFuR51hfqrpSMq/MszMjaMC0eVu # Encriptada em https://ci.appveyor.com/tools/encrypt
     skip_symbols: false
     artifact: logger-discord-provider-nuget
 on_success:

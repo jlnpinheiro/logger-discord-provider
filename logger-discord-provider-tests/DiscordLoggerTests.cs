@@ -109,6 +109,12 @@ namespace logger_discord_provider_tests
         }
 
         [TestMethod]
+        public void Should_Send_A_Message_As_Attachment_On_Exception()
+        {
+            _logger.LogInformation(new string('0', 2300));
+        }
+
+        [TestMethod]
         public void Should_Not_Allow_Empty_Webhook_Url()
         {
             try
