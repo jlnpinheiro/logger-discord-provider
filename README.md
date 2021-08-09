@@ -44,7 +44,9 @@ namespace My.Sample.Code
                 {
                     ApplicationName = "Application Name Test",
                     EnvironmentName = "Name of environment",
-                    UserName = "Bot username"
+                    UserName = "Bot username",
+                    // Convert claims user principal values to Discord fields
+                    UserClaimValueToDiscordFields = new List<UserClaimValueToDiscordField> { new UserClaimValueToDiscordField(ClaimTypes.NameIdentifier, "Name identifier"), new UserClaimValueToDiscordField(ClaimTypes.Name, "Name") }
                 });
                 
              app.UseMvc();

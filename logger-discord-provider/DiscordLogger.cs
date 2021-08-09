@@ -103,28 +103,29 @@ namespace JNogueira.Logger.Discord
                 exceptionInfoText.Append("Base exception: ").AppendLine(exception.GetBaseException()?.Message);
 
                 foreach (DictionaryEntry data in exception.Data)
-                    exceptionInfoText.AppendLine($"{data.Key}: {data.Value}");
+                    exceptionInfoText.Append(data.Key).Append(": ").Append(data.Value).AppendLine();
 
                 exceptionInfoText.Append("Stack trace: ").AppendLine(exception.StackTrace);
 
-                if (_httpContextAcessor != null)
+                if (_httpContextAcessor?.HttpContext?.Request != null)
                 {
                     var uriBuilder = new UriBuilder
                     {
-                        Scheme = _httpContextAcessor.HttpContext?.Request?.Scheme,
-                        Host = _httpContextAcessor.HttpContext?.Request?.Host.Host,
-                        Path = _httpContextAcessor.HttpContext?.Request?.Path.ToString(),
-                        Query = _httpContextAcessor.HttpContext?.Request?.QueryString.ToString()
+                        Scheme = _httpContextAcessor.HttpContext.Request.Scheme,
+                        Host   = _httpContextAcessor.HttpContext.Request.Host.Host,
+                        Path   = _httpContextAcessor.HttpContext.Request.Path.ToString(),
+                        Query  = _httpContextAcessor.HttpContext.Request.QueryString.ToString()
                     };
 
-                    if (_httpContextAcessor.HttpContext?.Request?.Host.Port.HasValue == true && _httpContextAcessor.HttpContext?.Request?.Host.Port.Value != 80)
+                    if (_httpContextAcessor.HttpContext.Request.Host.Port.HasValue && _httpContextAcessor.HttpContext.Request.Host.Port.Value != 80)
                         uriBuilder.Port = _httpContextAcessor.HttpContext.Request.Host.Port.Value;
 
-                    fields.Add(new DiscordMessageEmbedField("URL", uriBuilder.Uri.ToString()));
+                    if (!string.IsNullOrEmpty(uriBuilder.Host))
+                        fields.Add(new DiscordMessageEmbedField("URL", uriBuilder.Uri.ToString()));
 
                     var requestHeaders = new Dictionary<string, string>();
 
-                    foreach (var item in _httpContextAcessor.HttpContext?.Request?.Headers?.Where(x => x.Key != "Cookie" && x.Value.Count > 0))
+                    foreach (var item in _httpContextAcessor.HttpContext.Request.Headers?.Where(x => x.Key != "Cookie" && x.Value.Count > 0))
                         requestHeaders.Add(item.Key, string.Join(",", item.Value.ToArray()));
 
                     if (requestHeaders.Count > 0)
