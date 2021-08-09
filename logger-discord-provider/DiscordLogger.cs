@@ -77,6 +77,15 @@ namespace JNogueira.Logger.Discord
             if (!string.IsNullOrEmpty(_options.EnvironmentName))
                 fields.Add(new DiscordMessageEmbedField("Environment name", _options.EnvironmentName));
 
+            if (_httpContextAcessor?.HttpContext?.User != null && _options.UserClaimValueToDiscordFields.Count > 0)
+            {
+                foreach(var item in _options.UserClaimValueToDiscordFields.Where(x => !string.IsNullOrEmpty(x.DiscordFieldName)))
+                {
+                    var claimValue = _httpContextAcessor?.HttpContext?.User?.Claims?.FirstOrDefault(x => x.Type == item.ClaimType)?.Value;
+                    fields.Add(new DiscordMessageEmbedField(item.DiscordFieldName, claimValue));
+                }
+            }
+
             var files = new List<DiscordFile>();
 
             DiscordMessageEmbed embed = null;

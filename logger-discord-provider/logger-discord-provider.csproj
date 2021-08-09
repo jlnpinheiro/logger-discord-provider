@@ -10,9 +10,9 @@
     <PackageProjectUrl>https://github.com/jlnpinheiro/logger-discord-provider</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jlnpinheiro/logger-discord-provider</RepositoryUrl>
     <PackageTags>ILogger Logging .NET Core log Discord</PackageTags>
-    <Version>2.2.0</Version>
-    <AssemblyVersion>2.2.0.0</AssemblyVersion>
-    <PackageReleaseNotes>Bug fix.</PackageReleaseNotes>
+    <Version>2.3.0</Version>
+    <AssemblyVersion>2.3.0.0</AssemblyVersion>
+    <PackageReleaseNotes>Add UserClaimValueToDiscordField options</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

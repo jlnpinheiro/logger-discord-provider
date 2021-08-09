@@ -1,9 +1,13 @@
 using JNogueira.Logger.Discord;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace logger_discord_provider_tests
 {
@@ -27,13 +31,25 @@ namespace logger_discord_provider_tests
                 .AddLogging(configure => configure.SetMinimumLevel(LogLevel.Trace))
                 .BuildServiceProvider();
 
+            var user = new ClaimsPrincipal(new ClaimsIdentity(
+                new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, "SomeValueHere"),
+                    new Claim(ClaimTypes.Name, "gunnar@somecompany.com")
+                })
+            );
+
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+            mockHttpContextAccessor.Setup(_ => _.HttpContext).Returns(new DefaultHttpContext { User = user });
+
             var factory = serviceProvider.GetService<ILoggerFactory>();
             factory.AddDiscord(new DiscordLoggerOptions(urlWebhook)
             {
                 ApplicationName = "Application Name Test",
                 EnvironmentName = "Name of environment",
-                UserName = "discord-logger-test"
-            });
+                UserName = "discord-logger-test",
+                UserClaimValueToDiscordFields = new List<UserClaimValueToDiscordField> { new UserClaimValueToDiscordField(ClaimTypes.NameIdentifier, "Name identifier"), new UserClaimValueToDiscordField(ClaimTypes.Name, "Name") }
+            }, mockHttpContextAccessor.Object);
 
             return factory.CreateLogger<DiscordLoggerTests>();
         }

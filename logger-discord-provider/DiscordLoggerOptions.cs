@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace JNogueira.Logger.Discord
 {
@@ -11,6 +12,8 @@ namespace JNogueira.Logger.Discord
         public string UserName { get; set; }
 
         public string EnvironmentName { get; set; }
+
+        public List<UserClaimValueToDiscordField> UserClaimValueToDiscordFields { get; set; } = new List<UserClaimValueToDiscordField>();
 
         public DiscordLoggerOptions(string webhookUrl)
         {
