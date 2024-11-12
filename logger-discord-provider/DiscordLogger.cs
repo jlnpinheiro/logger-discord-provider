@@ -93,7 +93,10 @@ namespace JNogueira.Logger.Discord
             if (exception != null)
             {
                 fields.Add(new DiscordMessageEmbedField("Exception type", exception.GetType().ToString()));
-                fields.Add(new DiscordMessageEmbedField("Source", exception.Source));
+                if (exception.Source != null)
+                {
+                    fields.Add(new DiscordMessageEmbedField("Source", exception.Source));
+                }
 
                 var exceptionInfoText = new StringBuilder();
 
