@@ -1,24 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>JNogueira.Logger.Discord</RootNamespace>
-    <Authors>Jorge Nogueira</Authors>
-    <Company></Company>
-    <Product>Logger Discord Provider</Product>
-    <Description>A .NET Core Logger provider to send log messages to Discord.</Description>
-    <PackageProjectUrl>https://github.com/jlnpinheiro/logger-discord-provider</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/jlnpinheiro/logger-discord-provider</RepositoryUrl>
-    <PackageTags>ILogger Logging .NET Core log Discord</PackageTags>
-    <Version>2.3.0</Version>
-    <AssemblyVersion>2.3.0.0</AssemblyVersion>
-    <PackageReleaseNotes>Add UserClaimValueToDiscordField options</PackageReleaseNotes>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<RootNamespace>JNogueira.Discord.Logger</RootNamespace>
+		<AssemblyName>JNogueira.Discord.Logger</AssemblyName>
+		<Authors>Jorge Nogueira</Authors>
+		<Company></Company>
+		<Product>Logger Discord Provider</Product>
+		<Description>A .NET Core Logger provider to send log messages to Discord.</Description>
+		<PackageProjectUrl>https://github.com/jlnpinheiro/logger-discord-provider</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/jlnpinheiro/logger-discord-provider</RepositoryUrl>
+		<PackageTags>ILogger Logging .NET Core log Discord</PackageTags>
+		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
+		<FileVersion>$(PackageVersion)</FileVersion>
+		<InformationalVersion>$(PackageVersion)</InformationalVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="discord-webhook-client" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="discord-webhook-client" Version="4.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="9.0.6" />
+	</ItemGroup>
 
 </Project>

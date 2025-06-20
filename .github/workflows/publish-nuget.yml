@@ -1,0 +1,38 @@
+name: Publish NuGet
+
+on:
+  push:
+    tags:
+      - '*.*.*'  # Ex: 1.0.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Write Discord webhook URL on testSettings.json file
+        run: |
+          echo "{\"DiscordWebhookUrl\": \"${{ vars.DISCORD_WEBHOOK_URL }}\"}" > logger-discord-provider-test/bin/Release/net8.0/testSettings.json
+
+      - name: Run Tests
+        run: dotnet test logger-discord-provider-test/logger-discord-provider-test.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Pack
+        run: dotnet pack logger-discord-provider/logger-discord-provider.csproj --configuration Release --no-build -o ./nupkg /p:PackageVersion=${{ github.ref_name }}
+
+      - name: Publish to NuGet
+        run: dotnet nuget push "./nupkg/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

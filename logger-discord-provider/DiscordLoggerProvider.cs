@@ -1,41 +1,61 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using JNogueira.Discord.WebhookClient;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Net.Http;
 
-namespace JNogueira.Logger.Discord
+namespace JNogueira.Discord.Logger;
+
+public class DiscordLoggerProvider(string discordWebhookUrl, DiscordLoggerConfiguration config, IHttpClientFactory httpClientFactory) : ILoggerProvider
 {
-    public class DiscordLoggerProvider : ILoggerProvider
+    public ILogger CreateLogger(string name) => new DiscordLogger(discordWebhookUrl, config, httpClientFactory);
+
+    public void Dispose()
+    {}
+}
+
+public static class DiscordLoggerProviderExtensions
+{
+    public static ILoggingBuilder AddDiscordLogger(this ILoggingBuilder builder, string discordWebhookUrl, Action<DiscordLoggerConfiguration> configure = null)
     {
-        private readonly IHttpContextAccessor _httpContextAcessor;
-        private readonly DiscordLoggerOptions _options;
+        ArgumentNullException.ThrowIfNull(discordWebhookUrl);
+        
+        if (!IsValidDiscordWebhookUrl(discordWebhookUrl))
+            throw new ArgumentException("Invalid Discord webhook URL. Try with a URL like https://discord.com/api/webhooks...", nameof(discordWebhookUrl));
 
-        private DiscordLogger _logger;
+        builder.Services.AddHttpClient();
 
-        public DiscordLoggerProvider(DiscordLoggerOptions options, IHttpContextAccessor httpContextAcessor = null)
+        var config = new DiscordLoggerConfiguration();
+        configure?.Invoke(config);
+
+        builder.Services.AddSingleton(config);
+
+        builder.Services.AddSingleton<ILoggerProvider, DiscordLoggerProvider>(sp =>
         {
-            _options            = options;
-            _httpContextAcessor = httpContextAcessor;
-        }
+            var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
 
-        public ILogger CreateLogger(string name)
-        {
-            _logger = new DiscordLogger(_options, _httpContextAcessor);
+            return new DiscordLoggerProvider(discordWebhookUrl, config, httpClientFactory);
+        });
 
-            return _logger;
-        }
+        builder.AddFilter($"System.Net.Http.HttpClient.{nameof(DiscordWebhookHttpClient)}", LogLevel.Warning);
 
-        public void Dispose()
-        {
-            _logger = null;
-        }
+        return builder;
     }
 
-    public static class DiscordLoggerProviderExtensions
+    private static bool IsValidDiscordWebhookUrl(string discordWebhookUrl)
     {
-        public static ILoggerFactory AddDiscord(this ILoggerFactory loggerFactory, DiscordLoggerOptions options, IHttpContextAccessor httpContextAccessor = null)
-        {
-            loggerFactory.AddProvider(new DiscordLoggerProvider(options, httpContextAccessor));
+        if (string.IsNullOrWhiteSpace(discordWebhookUrl))
+            return false;
 
-            return loggerFactory;
+        try
+        {
+            var uri = new Uri(discordWebhookUrl);
+
+            return uri.Scheme == "https" && uri.Host == "discord.com" && uri.AbsolutePath.StartsWith("/api/webhooks", StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
         }
     }
 }
