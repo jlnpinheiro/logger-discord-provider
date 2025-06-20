@@ -20,6 +20,9 @@ public static class DiscordLoggerProviderExtensions
     {
         ArgumentNullException.ThrowIfNull(discordWebhookUrl);
         
+        if (string.IsNullOrWhiteSpace(discordWebhookUrl))
+            throw new ArgumentException("Discord webhook URL is empty.", nameof(discordWebhookUrl));
+
         if (!IsValidDiscordWebhookUrl(discordWebhookUrl))
             throw new ArgumentException("Invalid Discord webhook URL. Try with a URL like https://discord.com/api/webhooks...", nameof(discordWebhookUrl));
 
@@ -44,9 +47,6 @@ public static class DiscordLoggerProviderExtensions
 
     private static bool IsValidDiscordWebhookUrl(string discordWebhookUrl)
     {
-        if (string.IsNullOrWhiteSpace(discordWebhookUrl))
-            return false;
-
         try
         {
             var uri = new Uri(discordWebhookUrl);
