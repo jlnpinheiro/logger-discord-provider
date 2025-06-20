@@ -4,12 +4,14 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<RootNamespace>JNogueira.Discord.Logger</RootNamespace>
 		<AssemblyName>JNogueira.Discord.Logger</AssemblyName>
+		<PackageId>logger-discord-provider</PackageId>
 		<Authors>Jorge Nogueira</Authors>
 		<Company></Company>
 		<Product>Logger Discord Provider</Product>
 		<Description>A .NET Core Logger provider to send log messages to Discord.</Description>
 		<PackageProjectUrl>https://github.com/jlnpinheiro/logger-discord-provider</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/jlnpinheiro/logger-discord-provider</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
 		<PackageTags>ILogger Logging .NET Core log Discord</PackageTags>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>
